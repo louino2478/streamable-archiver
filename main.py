@@ -46,8 +46,23 @@ def download_vid(url,filename):
         f.write(videofile.content)
     print("download finished")
 
+def check_is_present_to_DB(tag):
+    f = open("DB.txt","r")
+    DB = f.read().split("\n")
+    f.close()
+    for line in DB:
+        if tag in line:
+            return True
+    return False
 
 if __name__ == "__main__":
     links = get_streamable_videos_link(username,password)
     for url,filename,tag in links:
-        download_vid(url,filename)
+        if check_is_present_to_DB(tag):
+            print(f"{filename} already downloaded")
+        else:
+            download_vid(url,filename)
+            f = open("DB.txt","a")
+            f.write(tag+"\n")
+            f.close()
+
