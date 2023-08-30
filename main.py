@@ -1,10 +1,15 @@
 import json
 import requests
+import os
 
 with open('config.json', 'r') as f:
     config = json.load(f)
 username = config['username']
 password = config['password']
+telegramtoken = config['telegramtoken']
+telegramchatid = config['telegramchatid']
+
+
 downloadpath = "downloads/"
 
 
@@ -16,7 +21,7 @@ def clean_filename(filename):
 
 def get_streamable_videos_link(username,password):
     links=[]
-    print("conecting to streamable acount")
+    print("conecting to streamable account")
     session = requests.Session()
     print("getting videos count")
     session.post('https://ajax.streamable.com/check', json={"username": username, "password": password},headers={"Content-Type": "application/json"})
@@ -56,7 +61,10 @@ def check_is_present_to_DB(tag):
     return False
 
 if __name__ == "__main__":
+    # get streamable videos links
     links = get_streamable_videos_link(username,password)
+
+    # download videos
     for url,filename,tag in links:
         if check_is_present_to_DB(tag):
             print(f"{filename} already downloaded")
@@ -66,3 +74,17 @@ if __name__ == "__main__":
             f.write(tag+"\n")
             f.close()
 
+    # send to telegram
+    tmp = list(os.scandir(downloadpath))
+    for filename in tmp:
+        print(f"uploading to telegram: {filename.path}")
+        file = {'document': open(filename.path, 'rb')}
+        res = requests.post(f'https://api.telegram.org/bot{telegramtoken}/sendDocument?chat_id={telegramchatid}', files=file)
+        print("upload finished")
+
+        # delete file after upload
+        print(f"deleting file: {filename.path}")
+        os.remove(filename.path)
+        print("delete finished")
+
+    print("END")
