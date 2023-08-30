@@ -60,7 +60,8 @@ def check_is_present_to_DB(tag):
             return True
     return False
 
-if __name__ == "__main__":
+def main () :
+    print("START")
     # get streamable videos links
     links = get_streamable_videos_link(username,password)
 
@@ -88,3 +89,6 @@ if __name__ == "__main__":
         print("delete finished")
 
     print("END")
+
+if __name__ == "__main__":
+    main()
