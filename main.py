@@ -1,6 +1,8 @@
 import json
 import requests
 import os
+import time
+import schedule
 
 with open('/config/config.json', 'r') as f:
     config = json.load(f)
@@ -92,3 +94,7 @@ def main () :
 
 if __name__ == "__main__":
     main()
+    schedule.every().day.at("01:00", "Europe/Paris").do(main)
+    while True:
+        schedule.run_pending()
+        time.sleep(1)

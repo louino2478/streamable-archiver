@@ -3,5 +3,5 @@ WORKDIR /app
 COPY main.py /app
 VOLUME [/config]
 VOLUME [/downloads]
-RUN pip3 install --no-cache-dir requests
+RUN pip3 install --no-cache-dir requests schedule
 CMD ["python3","/app/main.py"]
