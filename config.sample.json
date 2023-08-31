@@ -1,0 +1,6 @@
+{
+    "username": "your streamable username",
+    "password": "your streamable password",
+    "telegramtoken" : "your telegram bot token",
+    "telegramchatid" : "your telegram chat id"
+}
