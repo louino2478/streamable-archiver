@@ -1,0 +1,9 @@
+version: '3.3'
+services:
+  StreamableArchiver:
+    container_name: StreamableArchiver
+    volumes:
+      - /path/to/config:/config
+      - /path/to/downloads:/downloads
+    image: ghcr.io/louino2478/streamable-archiver:latest
+    restart: unless-stopped
