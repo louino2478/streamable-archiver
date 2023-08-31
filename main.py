@@ -93,6 +93,7 @@ def main () :
     print("END")
 
 if __name__ == "__main__":
+    print("streamable-archiver started")
     main()
     schedule.every().day.at("01:00", "Europe/Paris").do(main)
     while True:
