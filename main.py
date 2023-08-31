@@ -2,7 +2,7 @@ import json
 import requests
 import os
 
-with open('config.json', 'r') as f:
+with open('/config/config.json', 'r') as f:
     config = json.load(f)
 username = config['username']
 password = config['password']
@@ -10,7 +10,7 @@ telegramtoken = config['telegramtoken']
 telegramchatid = config['telegramchatid']
 
 
-downloadpath = "downloads/"
+downloadpath = "/downloads/"
 
 
 def clean_filename(filename):
@@ -52,7 +52,7 @@ def download_vid(url,filename):
     print("download finished")
 
 def check_is_present_to_DB(tag):
-    f = open("DB.txt","r")
+    f = open("/config/DB.txt","r")
     DB = f.read().split("\n")
     f.close()
     for line in DB:
@@ -71,7 +71,7 @@ def main () :
             print(f"{filename} already downloaded")
         else:
             download_vid(url,filename)
-            f = open("DB.txt","a")
+            f = open("/config/DB.txt","a")
             f.write(tag+"\n")
             f.close()
 
