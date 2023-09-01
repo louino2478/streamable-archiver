@@ -1,6 +1,7 @@
 {
     "username": "your streamable username",
     "password": "your streamable password",
+    "enabletelegram" : true,
     "telegramtoken" : "your telegram bot token",
     "telegramchatid" : "your telegram chat id"
 }
