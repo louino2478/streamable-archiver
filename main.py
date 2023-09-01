@@ -40,13 +40,19 @@ def get_streamable_videos_link(username,password): # get new streamable video li
         videos_response = session.get(f'https://ajax.streamable.com/api/v1/videos?sort=date_added&sortd=DESC&count=100&page={index}')
         videos = videos_response.json()
         for video in videos['videos']:
-            print(f'getting video info : {video["url"].split("/")[-1]}')
-            video_resp = requests.get(f'https://api.streamable.com/videos/{video["url"].split("/")[-1]}')
-            videodata=video_resp.json()
-            filename= videodata['title']+"_"+ video["url"].split("/")[-1] + ".mp4"
-            url = videodata['files']['mp4']['url']
-            tag = video["url"].split("/")[-1]
-            links.append((url,filename,tag))
+            if check_is_present_to_DB(video["url"].split("/")[-1]):
+                print(f'video already present to DB : {video["url"].split("/")[-1]}')
+            else:
+                print(f'getting video info : {video["url"].split("/")[-1]}')
+                video_resp = requests.get(f'https://api.streamable.com/videos/{video["url"].split("/")[-1]}')
+                videodata=video_resp.json()
+                filename= videodata['title']+"_"+ video["url"].split("/")[-1] + ".mp4"
+                url = videodata['files']['mp4']['url']
+                tag = video["url"].split("/")[-1]
+                links.append((url,filename,tag))
+                f = open("/config/DB.txt","a") # add to DB
+                f.write(tag+"\n")
+                f.close()
     print("streamable videos links extraction finished")
     return links
 
@@ -68,18 +74,12 @@ def check_is_present_to_DB(tag):
 
 def main () :
     print("START")
-    # get streamable videos links
+    # get new streamable videos links
     links = get_streamable_videos_link(username,password)
 
     # download videos
     for url,filename,tag in links:
-        if check_is_present_to_DB(tag):
-            print(f"{filename} already downloaded")
-        else:
-            download_vid(url,filename)
-            f = open("/config/DB.txt","a")
-            f.write(tag+"\n")
-            f.close()
+        download_vid(url,filename)
 
     if enabletelegram:
         # send to telegram
