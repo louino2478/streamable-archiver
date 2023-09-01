@@ -19,13 +19,13 @@ enabletelegram = config['enabletelegram']
 downloadpath = "/downloads/"
 
 
-def clean_filename(filename): # clean filename for writing
+def clean_filename(filename): # clean filename for downloading
     for ch in ['\\', '/', ':', '*', '?', '"', '<', '>', '|']:
         if ch in filename:
             filename = filename.replace(ch, '')
     return filename
 
-def get_streamable_videos_link(username,password): # get new streamable video link and data
+def get_streamable_videos_link(username,password): # get new streamable videos links and data
     links=[]
     print("conecting to streamable account")
     session = requests.Session()
@@ -40,7 +40,7 @@ def get_streamable_videos_link(username,password): # get new streamable video li
         videos_response = session.get(f'https://ajax.streamable.com/api/v1/videos?sort=date_added&sortd=DESC&count=100&page={index}')
         videos = videos_response.json()
         for video in videos['videos']:
-            if check_is_present_to_DB(video["url"].split("/")[-1]):
+            if check_is_present_to_DB(video["url"].split("/")[-1]): # check if video is already present to DB
                 print(f'video already present to DB : {video["url"].split("/")[-1]}')
             else:
                 print(f'getting video info : {video["url"].split("/")[-1]}')
