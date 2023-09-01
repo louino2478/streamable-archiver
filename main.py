@@ -4,6 +4,8 @@ import os
 import time
 import schedule
 
+with open("init.py") as f:
+    exec(f.read())
 
 
 # load config
