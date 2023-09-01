@@ -4,6 +4,9 @@ import os
 import time
 import schedule
 
+
+
+# load config
 with open('/config/config.json', 'r') as f:
     config = json.load(f)
 username = config['username']
@@ -15,13 +18,13 @@ telegramchatid = config['telegramchatid']
 downloadpath = "/downloads/"
 
 
-def clean_filename(filename):
+def clean_filename(filename): # clean filename for writing
     for ch in ['\\', '/', ':', '*', '?', '"', '<', '>', '|']:
         if ch in filename:
             filename = filename.replace(ch, '')
     return filename
 
-def get_streamable_videos_link(username,password):
+def get_streamable_videos_link(username,password): # get new streamable video link and data
     links=[]
     print("conecting to streamable account")
     session = requests.Session()
