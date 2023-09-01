@@ -13,6 +13,7 @@ username = config['username']
 password = config['password']
 telegramtoken = config['telegramtoken']
 telegramchatid = config['telegramchatid']
+enabletelegram = config['enabletelegram']
 
 
 downloadpath = "/downloads/"
@@ -80,18 +81,19 @@ def main () :
             f.write(tag+"\n")
             f.close()
 
-    # send to telegram
-    tmp = list(os.scandir(downloadpath))
-    for filename in tmp:
-        print(f"uploading to telegram: {filename.path}")
-        file = {'document': open(filename.path, 'rb')}
-        res = requests.post(f'https://api.telegram.org/bot{telegramtoken}/sendDocument?chat_id={telegramchatid}', files=file)
-        print("upload finished")
+    if enabletelegram:
+        # send to telegram
+        tmp = list(os.scandir(downloadpath))
+        for filename in tmp:
+            print(f"uploading to telegram: {filename.path}")
+            file = {'document': open(filename.path, 'rb')}
+            res = requests.post(f'https://api.telegram.org/bot{telegramtoken}/sendDocument?chat_id={telegramchatid}', files=file)
+            print("upload finished")
 
-        # delete file after upload
-        print(f"deleting file: {filename.path}")
-        os.remove(filename.path)
-        print("delete finished")
+            # delete file after upload
+            print(f"deleting file: {filename.path}")
+            os.remove(filename.path)
+            print("delete finished")
 
     print("END")
 
