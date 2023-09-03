@@ -3,7 +3,7 @@ Ce programme permet de télécharger toute les videos de votre [Streamable](http
 Mais aussi de les uploadé sur un canal [Telegram](https://telegram.org/)
 ## Comment utiliser Streamable-archiver
 ### Déploiement avec docker compose:
-Lancée le [docker-compose.yml](https://github.com/louino2478/streamable-archiver/blob/main/config.sample.json) en remplacent "/path/to/config" et "path/to/download par votre répertoire précédemment créent.
+Lancée le [docker-compose.yml](https://github.com/louino2478/streamable-archiver/blob/main/docker-compose.yml) en remplacent "/path/to/config" et "path/to/download par votre répertoire précédemment créent.
 ### Déploiement sans docker compose:
 exécuté le conteneur :
 ```bash
